@@ -59,6 +59,13 @@ const randomiseNumbersUnique = function (num) {
 };
 
 const createQuestions = function (obj) {
+  //Error:
+  //it was trying to generate a question with no Object, because the list finished.
+  //Validation - If object does not exist redirect to result page.
+
+  if (!obj) {
+    goToResultsPage();
+  }
   const parentNode = document.getElementsByClassName("bodycontent")[0];
   const correctAnswer = obj.correct;
   let arrOfQuestions = [];
@@ -110,7 +117,7 @@ const goToNextPage = function () {
   if (currentQuestion >= totalQuestions) {
     nextButton.addEventListener("click", goToResultsPage);
   }
-  nextButton.addEventListener("click", checkAnswer);
+  nextButton.addEventListener("click", checkAnswer(currentQuestion));
 };
 
 const checkAnswer = function (obj) {
@@ -133,7 +140,9 @@ const startQuiz = function () {
   actualQuestion.innerText = `QUESTION ${currentQuestion + 1}/${
     questions.length
   }`;
-
+  if (currentQuestion >= totalQuestions - 1) {
+    nextButton.addEventListener("click", goToResultsPage);
+  }
   ////////////////////////////ARROW FUNCTION//////////////////////
   const nextButton = document.querySelector(".nextbutton");
   nextButton.addEventListener("click", () =>
